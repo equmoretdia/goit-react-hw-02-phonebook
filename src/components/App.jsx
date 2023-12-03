@@ -6,6 +6,7 @@ class App extends React.Component {
   state = {
     contacts: [],
     name: '',
+    number: '',
   };
 
   handleSubmit = e => {
@@ -13,6 +14,7 @@ class App extends React.Component {
     const newContact = {
       id: nanoid(),
       name: this.state.name,
+      number: this.state.number,
     };
     this.setState(({ contacts }) => ({
       contacts: [...contacts, newContact],
@@ -21,7 +23,7 @@ class App extends React.Component {
   };
 
   formReset = () => {
-    this.setState({ name: '' });
+    this.setState({ name: '', number: '' });
   };
 
   handleChange = e => {
@@ -33,7 +35,7 @@ class App extends React.Component {
   };
 
   render() {
-    const { contacts, name } = this.state;
+    const { contacts, name, number } = this.state;
     return (
       <>
         <h1>Phonebook</h1>
@@ -50,13 +52,27 @@ class App extends React.Component {
               onChange={this.handleChange}
             />
           </label>
+          <label htmlFor="">
+            Number
+            <input
+              type="tel"
+              name="number"
+              pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
+              title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
+              required
+              value={number}
+              onChange={this.handleChange}
+            />
+          </label>
           <button type="submit">Add contact</button>
         </form>
         <div>
           <h2>Contacts</h2>
           <ul>
             {contacts.map(contact => (
-              <li key={contact.id}>{contact.name}</li>
+              <li key={contact.id}>
+                {contact.name}: {contact.number}
+              </li>
             ))}
           </ul>
         </div>
