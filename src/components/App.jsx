@@ -25,14 +25,20 @@ class App extends React.Component {
   };
 
   addNewContact = ({ name, number }) => {
+    const { contacts } = this.state;
     const newContact = {
       id: nanoid(),
       name,
       number,
     };
-    this.setState(({ contacts }) => ({
-      contacts: [...contacts, newContact],
-    }));
+
+    if (contacts.some(contact => contact.name === newContact.name)) {
+      alert(`${newContact.name} is already in contacts`);
+    } else {
+      this.setState(({ contacts }) => ({
+        contacts: [...contacts, newContact],
+      }));
+    }
   };
 
   handleFilterChange = filter => {
