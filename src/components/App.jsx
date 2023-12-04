@@ -2,9 +2,12 @@ import React from 'react';
 
 import { nanoid } from 'nanoid/non-secure';
 
+import initialContacts from './data/contacts.json';
+
 class App extends React.Component {
   state = {
-    contacts: [],
+    contacts: initialContacts,
+    filter: '',
     name: '',
     number: '',
   };
@@ -34,8 +37,16 @@ class App extends React.Component {
     this.setState({ [name]: value });
   };
 
+  getFilteredContacts = () => {
+    const { contacts, filter } = this.state;
+    return contacts.filter(contact =>
+      contact.name.toLowerCase().includes(filter.toLowerCase())
+    );
+  };
+
   render() {
-    const { contacts, name, number } = this.state;
+    const { filter, name, number } = this.state;
+    const filteredContacts = this.getFilteredContacts();
     return (
       <>
         <h1>Phonebook</h1>
@@ -68,8 +79,17 @@ class App extends React.Component {
         </form>
         <div>
           <h2>Contacts</h2>
+          <label>
+            Find contacts by name
+            <input
+              type="text"
+              name="filter"
+              value={filter}
+              onChange={this.handleChange}
+            />
+          </label>
           <ul>
-            {contacts.map(contact => (
+            {filteredContacts.map(contact => (
               <li key={contact.id}>
                 {contact.name}: {contact.number}
               </li>
