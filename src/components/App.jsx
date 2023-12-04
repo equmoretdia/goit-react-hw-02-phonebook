@@ -9,11 +9,6 @@ import ContactList from './ContactList';
 import Filter from './Filter';
 
 class App extends React.Component {
-  state = {
-    contacts: initialContacts,
-    filter: '',
-  };
-
   static propTypes = {
     contacts: PropTypes.arrayOf(
       PropTypes.exact({
@@ -24,6 +19,11 @@ class App extends React.Component {
     ),
   };
 
+  state = {
+    contacts: initialContacts,
+    filter: '',
+  };
+
   addNewContact = ({ name, number }) => {
     const { contacts } = this.state;
     const newContact = {
@@ -32,7 +32,7 @@ class App extends React.Component {
       number,
     };
 
-    if (contacts.some(contact => contact.name === newContact.name)) {
+    if (contacts.some(contact => contact.name === newContact.name.trim())) {
       alert(`${newContact.name} is already in contacts`);
     } else {
       this.setState(({ contacts }) => ({
@@ -41,8 +41,14 @@ class App extends React.Component {
     }
   };
 
-  handleFilterChange = filter => {
-    this.setState({ filter });
+  deleteContact = contactId => {
+    this.setState(({ contacts }) => ({
+      contacts: contacts.filter(contact => contact.id !== contactId),
+    }));
+  };
+
+  handleFilterChange = newFilter => {
+    this.setState({ filter: newFilter });
   };
 
   getFilteredContacts = () => {
@@ -61,7 +67,10 @@ class App extends React.Component {
         <ContactForm onSubmit={this.addNewContact} />
         <h2>Contacts</h2>
         <Filter value={filter} onFilterChange={this.handleFilterChange} />
-        <ContactList contacts={filteredContacts} />
+        <ContactList
+          contacts={filteredContacts}
+          onContactDelete={this.deleteContact}
+        />
       </>
     );
   }
