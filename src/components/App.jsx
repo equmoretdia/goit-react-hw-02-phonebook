@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import css from './App.module.css';
 
 import { nanoid } from 'nanoid/non-secure';
 
@@ -62,16 +63,16 @@ class App extends React.Component {
     const { filter } = this.state;
     const filteredContacts = this.getFilteredContacts();
     return (
-      <>
-        <h1>Phonebook</h1>
+      <section className={css.section}>
+        <h1 className={css.title}>Phonebook</h1>
         <ContactForm onSubmit={this.addNewContact} />
-        <h2>Contacts</h2>
+        <h2 className={css.title}>Contacts</h2>
         <Filter value={filter} onFilterChange={this.handleFilterChange} />
         <ContactList
           contacts={filteredContacts}
           onContactDelete={this.deleteContact}
         />
-      </>
+      </section>
     );
   }
 }
