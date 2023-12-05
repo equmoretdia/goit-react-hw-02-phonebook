@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import css from './Filter.module.css';
 
 class Filter extends React.Component {
   static propTypes = {
@@ -17,15 +18,18 @@ class Filter extends React.Component {
   render() {
     const { value } = this.props;
     return (
-      <label>
-        Find contacts by name
-        <input
-          type="text"
-          name="filter"
-          value={value}
-          onChange={this.handleChange}
-        />
-      </label>
+      <div className={css.wrapper}>
+        <label className={css.label}>
+          Find contacts by name
+          <input
+            className={css.input}
+            type="text"
+            name="filter"
+            value={value}
+            onChange={this.handleChange}
+          />
+        </label>
+      </div>
     );
   }
 }
