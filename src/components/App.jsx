@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import css from './App.module.css';
 
 import { nanoid } from 'nanoid/non-secure';
@@ -10,16 +9,6 @@ import ContactList from './ContactList';
 import Filter from './Filter';
 
 class App extends React.Component {
-  static propTypes = {
-    contacts: PropTypes.arrayOf(
-      PropTypes.exact({
-        id: PropTypes.string.isRequired,
-        name: PropTypes.string.isRequired,
-        number: PropTypes.string.isRequired,
-      })
-    ),
-  };
-
   state = {
     contacts: initialContacts,
     filter: '',
@@ -33,7 +22,12 @@ class App extends React.Component {
       number,
     };
 
-    if (contacts.some(contact => contact.name === newContact.name.trim())) {
+    if (
+      contacts.some(
+        contact =>
+          contact.name.toLowerCase() === newContact.name.toLowerCase().trim()
+      )
+    ) {
       alert(`${newContact.name} is already in contacts`);
     } else {
       this.setState(({ contacts }) => ({
